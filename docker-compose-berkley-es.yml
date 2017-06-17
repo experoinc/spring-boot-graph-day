@@ -1,0 +1,35 @@
+version: '2.1'
+
+services:
+  janusgraph:
+    image: chrislbs/janusgraph:latest
+    container_name: janusgraph-berkley-es
+    environment:
+      - "JANUS_INDEX_DEFINED_NAME=search"
+      - "JANUS_INDEX_HOSTNAME=elasticsearch"
+      - "JANUS_STORAGE_BACKEND=berkeleyje"
+      - "JANUS_STORAGE_DIRECTORY=../db/berkeley"
+    ports:
+      - "8182:8182"
+    links:
+      - elastic-search:elasticsearch
+    depends_on:
+      elastic-search:
+        condition: service_healthy
+    healthcheck:
+        test: [ "CMD-SHELL", "timeout -t 2 bash -c 'cat < /dev/null > /dev/tcp/127.0.0.1/8182'" ]
+        interval: 10s
+        timeout: 10s
+        retries: 6
+
+  elastic-search:
+    image: elasticsearch:2.4.5
+    container_name: elastic1
+    ports:
+      - "9200:9200"
+    healthcheck:
+        test: [ "CMD-SHELL", "timeout 2 bash -c 'cat < /dev/null > /dev/tcp/127.0.0.1/9200'" ]
+        interval: 10s
+        timeout: 10s
+        retries: 6
+
