@@ -17,7 +17,7 @@ services:
       elastic-search:
         condition: service_healthy
     healthcheck:
-        test: [ "CMD-SHELL", "timeout -t 2 bash -c 'cat < /dev/null > /dev/tcp/127.0.0.1/8182'" ]
+        test: [ "CMD-SHELL", "timeout 2 bash -c 'cat < /dev/null > /dev/tcp/127.0.0.1/8182'" ]
         interval: 10s
         timeout: 10s
         retries: 6

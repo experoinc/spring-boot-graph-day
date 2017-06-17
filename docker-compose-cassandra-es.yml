@@ -5,7 +5,7 @@ services:
     image: chrislbs/janusgraph:latest
     container_name: janusgraph-cassandra-es
     environment:
-      JANUS_STORAGE_BACKEND: cassandra
+      JANUS_STORAGE_BACKEND: astyanax
       JANUS_STORAGE_HOSTNAME: cassandra-host
       JANUS_INDEX_DEFINED_NAME: search
       JANUS_INDEX_HOSTNAME: elasticsearch
